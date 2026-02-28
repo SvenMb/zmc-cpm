@@ -157,8 +157,9 @@ void load_directory(Panel *p) {
 
     if (p->drive == '@') // '@' -> select current drive
         p->drive = bdos( 25, fcb_src ) + 'A';
-    /* 1. change drive to fetch the complete directory */
-    bdos(14, p->drive - 'A');
+    else
+        /* 1. change drive to fetch the complete directory */
+        bdos(14, p->drive - 'A');
 
     /* 2. Prepare FCB to match all files (*.*) and all extents */
     memset(fcb_src, 0, sizeof(fcb_src));

@@ -107,7 +107,7 @@ void draw_panel(Panel *p, uint8_t x_offset) {
     draw_frame(x_offset, 1, PANEL_WIDTH, PANEL_HEIGHT, title);
 
     for (i = 0; i < VISIBLE_ROWS; i++) {
-        int f_idx = i + p->scroll_offset;
+        uint16_t f_idx = i + p->scroll_offset;
         goto_xy( x_offset + 1, i + 2 );
         if (f_idx < p->num_files)
             draw_file_info( p, f_idx );
@@ -121,7 +121,8 @@ void draw_panel(Panel *p, uint8_t x_offset) {
 
 
 void draw_file_line(Panel *p, uint8_t x_offset, uint16_t file_idx) {
-    if (file_idx >= p->scroll_offset && file_idx < p->scroll_offset + VISIBLE_ROWS) {
+    if (p->num_files && file_idx >= p->scroll_offset
+        && file_idx < p->scroll_offset + VISIBLE_ROWS) {
         goto_xy( x_offset + 1, file_idx - p->scroll_offset + 2 );
         draw_file_info( p, file_idx );
     }

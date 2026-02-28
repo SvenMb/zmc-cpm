@@ -54,14 +54,18 @@ uint8_t (*wait_key_hw)(void) = &wait_key_bios;
 
 
 void other_panel() {
+    // change focus
+    if ( App.active_panel == &App.left ) {
+        if ( !App.right.num_files ) // do not switch to empty panel
+            return;
+        App.active_panel = &App.right;
+    } else {
+        if ( !App.left.num_files ) // do not switch to empty panel
+            return;
+        App.active_panel = &App.left;
+    }
     int old_left_idx = App.left.current_idx;
     int old_right_idx = App.right.current_idx;
-
-    // change focus
-    if ( App.active_panel == &App.left )
-        App.active_panel = &App.right;
-    else
-        App.active_panel = &App.left;
 
     // chirurgical update: refresh only the lines with cursors
     draw_file_line(&App.left, 1, old_left_idx);
